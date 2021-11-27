@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  jupyter:
+    build: build
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: [gpu]
+    ports:
+      - 8888:8888
+    volumes:
+      - ./data:/home/lab/data
+      - ./notebooks:/home/lab/notebooks
+
+    environment:
+      NVIDIA_DISABLE_REQUIRE: 1
+      NVIDIA_VISIBLE_DEVICES: all
+      
+    user:
+      "root"
+    restart: always
